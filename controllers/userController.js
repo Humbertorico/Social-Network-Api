@@ -3,9 +3,18 @@ const { User, Thought } = require('../models');
 module.exports = {
     //   getUsers
     getUsers(req, res) {
-        User.find()
-            .then((users) => res.json(users))
-            .catch((err) => res.status(500).json(err));
+      User.find({})
+        .populate({
+          path: "friends",
+          select: "-__v",
+        })
+        .select("-__v")
+        .sort({ _id: -1 })
+        .then((dbUserData) => res.json(dbUserData))
+        .catch((err) => {
+          console.log(err);
+          res.sendStatus(400);
+        });
     },
 
   // Get single user
