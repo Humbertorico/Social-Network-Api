@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-// const assignmentSchema = require('./Assignment');
 
 // Schema to create Username 
 const usernameSchema = new Schema(
@@ -16,19 +15,23 @@ const usernameSchema = new Schema(
       unique: true,
       match: ['fill with a valid email']
     },
-    thoughts: {
-      type: Schema.types.ObjectId,
-      reference: 'thought'
-    },
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Thought'
+      }
+    ],
   },
-{
-  friends:{
-    type: Schema.types.ObjectId,
-    reference: 'User'
+  {
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ]
   }
-}
 
-  
+
 );
 
 usernameSchema.virtual('friendCount').get(function () {
